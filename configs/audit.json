@@ -1,0 +1,10 @@
+{
+  "duplicate_scope": "image_text",
+  "phash_distance": 4,
+  "dhash_distance": 4,
+  "near_rgb_rmse": 8.0,
+  "near_aspect_log_tolerance": 0.03,
+  "reject_animated": true,
+  "text_unicode_form": "NFC",
+  "export_format": "png"
+}

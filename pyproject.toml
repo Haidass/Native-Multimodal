@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multimodal-image-cleaner"
+version = "0.3.1"
+description = "Streaming, sharded image-text dataset inspection and curation"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26,<3", "Pillow>=10.4,<13"]
+
+[project.optional-dependencies]
+publish = ["huggingface_hub>=0.34,<2", "Markdown>=3.7,<4"]
+
+[project.scripts]
+image-cleaner = "image_cleaner.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["image_cleaner*"]

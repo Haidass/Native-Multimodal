@@ -1,0 +1,7 @@
+{
+  "aspect_buckets": ["1:1", "2:3", "3:2"],
+  "aspect_mode": "strict",
+  "aspect_tolerance": 0.05,
+  "deduplicate": false,
+  "near_deduplicate": false
+}

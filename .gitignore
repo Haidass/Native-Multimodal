@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+runs/
+.env
+.env.*
+*.token
+release/
+*.log
