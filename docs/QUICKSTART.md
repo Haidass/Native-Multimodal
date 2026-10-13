@@ -76,7 +76,7 @@ D:/datasets/images/
 ## 6. 在统计后筛选尺寸与宽高比
 
 ```powershell
-# 短边 >=256；宽高比在八桶内，允许 5% 对称偏差。
+# 短边 >=256；宽高比在十桶内，允许 5% 对称偏差。
 .\.venv\Scripts\python.exe -m image_cleaner filter --shards runs/tutorial_statistics/shards --output runs/tutorial_filtered --resolution 256p --aspect-buckets all --aspect-mode loose --aspect-tolerance 0.05
 
 # 严格只留方图或 3:2 横图，输出到另一个目录。

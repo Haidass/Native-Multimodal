@@ -1,4 +1,5 @@
 "use strict";
+const ASPECT_BUCKET_PRESETS = ["1:1","2:3","3:2","3:4","4:3","9:16","16:9","21:9","1:3","3:1"];
 // Use integer rational comparisons in the browser calculator, like the CLI.
 function decimalFraction(value) {
   const parts = String(value).toLowerCase().split("e");
@@ -32,7 +33,8 @@ function buildFilterCommand(platform, resolution, buckets, mode, percent) {
     throw new Error("宽松偏差需为有限非负数，例如 5 表示 5%。");
   }
   const python = platform === "windows" ? ".\\.venv\\Scripts\\python.exe" : ".venv/bin/python";
-  const selected = buckets.length === 8 ? "all" : buckets.length ? '"' + buckets.join(",") + '"' : "none";
+  const allSelected = buckets.length === ASPECT_BUCKET_PRESETS.length && ASPECT_BUCKET_PRESETS.every(bucket => buckets.includes(bucket));
+  const selected = allSelected ? "all" : buckets.length ? '"' + buckets.join(",") + '"' : "none";
   let command = `${python} -m image_cleaner filter --shards runs/statistics/shards --output runs/filtered --resolution ${resolution} --aspect-buckets ${selected}`;
   if (buckets.length) {
     command += ` --aspect-mode ${mode}`;

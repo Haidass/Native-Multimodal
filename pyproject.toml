@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "multimodal-image-cleaner"
-version = "0.3.1"
+version = "0.3.2"
 description = "Streaming, sharded image-text dataset inspection and curation"
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.26,<3", "Pillow>=10.4,<13"]

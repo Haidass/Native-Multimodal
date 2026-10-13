@@ -53,8 +53,8 @@ python3 -m venv .venv
 从项目根目录构建：
 
 ```bash
-docker build -f docker/Dockerfile -t nmm-data-preprocess:0.3.1 .
-docker run --rm nmm-data-preprocess:0.3.1 --help
+docker build -f docker/Dockerfile -t nmm-data-preprocess:0.3.2 .
+docker run --rm nmm-data-preprocess:0.3.2 --help
 ```
 
 以下为 Linux 主机路径示例。先创建输出目录，并确保容器 UID 1000 对其有写权限；数据目录只读挂载：
@@ -65,19 +65,19 @@ docker run --rm \
   -v /data/images:/data/images:ro \
   -v /jobs/nmm:/jobs \
   -v "$PWD/configs:/configs:ro" \
-  nmm-data-preprocess:0.3.1 \
+  nmm-data-preprocess:0.3.2 \
   run --input /data/images --output /jobs/statistics --config /configs/statistics_only.json --workers 4 --sidecar-text
 
 docker run --rm \
   -v /jobs/nmm:/jobs \
   -v "$PWD/configs:/configs:ro" \
-  nmm-data-preprocess:0.3.1 \
+  nmm-data-preprocess:0.3.2 \
   filter --shards /jobs/statistics/shards --output /jobs/filtered --config /configs/audit.json --resolution 256p --aspect-buckets all --aspect-mode loose
 
 docker run --rm \
   -v /data/images:/data/images:ro \
   -v /jobs/nmm:/jobs \
-  nmm-data-preprocess:0.3.1 \
+  nmm-data-preprocess:0.3.2 \
   export --curated /jobs/filtered --output /jobs/normalized --workers 4
 ```
 

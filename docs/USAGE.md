@@ -156,7 +156,16 @@ Start-Process -FilePath "runs/statistics/curated/report.html"
 
 ### 3.6 宽高比桶筛选
 
-比例始终为 EXIF 方向校正后的 **宽:高**。八个固定桶为 `1:1,2:3,3:2,3:4,4:3,9:16,16:9,21:9`。竖图与横图分别选择，例如选择 `2:3` 不会自动选择 `3:2`。
+比例始终为 EXIF 方向校正后的 **宽:高**。十个固定桶为 `1:1,2:3,3:2,3:4,4:3,9:16,16:9,21:9,1:3,3:1`。竖图与横图分别选择，例如选择 `2:3` 不会自动选择 `3:2`。
+
+新增的 `1:3` 是细长竖图，`3:1` 是细长横图，例如 `300×900`、`900×300`。可以只选择这两个桶，也可以和原有桶组合。升级后 `--aspect-buckets all` 选择十个桶；旧 JSON 配置或统计分片中保存的八桶列表仍按该列表筛选，须显式传入 `all` 或补充两个新桶。已有统计缓存可重新筛选，无须重新解码图片。
+
+```bash
+python -m image_cleaner filter --shards runs/statistics/shards --output runs/filtered_long \
+  --resolution 256p --aspect-buckets "1:3,3:1" --aspect-mode loose --aspect-tolerance 0.05
+```
+
+5% 对称偏差包含边界：`315×900` 与 `900×315` 通过相应新桶，`316×900` 与 `900×316` 不通过。
 
 ```powershell
 # 在项目根目录执行。先运行 3.1 的统计任务，再用缓存分片筛选。
@@ -183,7 +192,7 @@ Start-Process -FilePath "runs/statistics/curated/report.html"
 
 | 参数 | 默认值 | 含义 |
 | --- | --- | --- |
-| `--aspect-buckets` | 不启用，或继承配置/分片 | 英文逗号分隔多选；`all` 是八桶并集；`none` 关闭；空值或非预设桶报错 |
+| `--aspect-buckets` | 不启用，或继承配置/分片 | 英文逗号分隔多选；`all` 是十桶并集；`none` 关闭；空值或非预设桶报错 |
 | `--aspect-mode` | `strict`，或继承配置/分片 | `strict` 精确匹配；`loose` 容差匹配 |
 | `--aspect-tolerance` | `0.05`，或继承配置/分片 | 有限非负小数，仅宽松模式生效；`0.05` 表示 5%，`0` 表示不允许偏差 |
 
@@ -191,7 +200,7 @@ Start-Process -FilePath "runs/statistics/curated/report.html"
 
 设实际比例 `r=width/height`，目标桶比例 `b`。严格模式使用整数交叉相乘：例如 `2:3` 要求 `width×3 == height×2`。宽松模式要求 `δ=max(r/b,b/r)-1 <= aspect_tolerance`，包含边界。实现使用精确分数比较。例如选 `1:1`、偏差 5% 时，`1050×1000` 和 `1000×1050` 均通过，`1051×1000` 不通过。此对称定义下允许区间为 `[b/1.05, b×1.05]`，并非普通的 `[b×0.95,b×1.05]`。
 
-任意一个选中桶匹配即可通过。如果匹配多个桶，则只分配给偏差最小的桶；同偏差按上述固定八桶顺序选取，因此每张图片只计数一次。重复选择会合并。`all` 仍会过滤超出所有桶范围的图片。桶条件与分辨率、`min_aspect_ratio/max_aspect_ratio`、质量、文本条件取交集；不会裁剪或缩放图片。
+任意一个选中桶匹配即可通过。如果匹配多个桶，则只分配给偏差最小的桶；同偏差按上述固定十桶顺序选取，因此每张图片只计数一次。重复选择会合并。`all` 仍会过滤超出所有桶范围的图片。桶条件与分辨率、`min_aspect_ratio/max_aspect_ratio`、质量、文本条件取交集；不会裁剪或缩放图片。
 
 配置文件新增字段示例：
 
@@ -354,7 +363,7 @@ pHash 使用相对 AC 系数容差抑制极小系数，与普通 pHash 数值不
 | `configs/exact_256p.json` | 兼容旧文件名，内容与 above_256p 相同，采用大于或等于的新规则 |
 | `configs/audit.json` | 无可选技术质量阈值，开启默认去重 |
 | `configs/aspect_strict.json` | 严格选择 1:1、2:3、3:2，关闭去重 |
-| `configs/aspect_loose.json` | 宽松选择八桶，默认容差 5%，关闭去重 |
+| `configs/aspect_loose.json` | 宽松选择十桶，默认容差 5%，关闭去重 |
 | `configs/generation_example.json` | 示例：短边至少 512、比例 0.25–4、文本非空，并开启默认去重 |
 
 以下为可自定义的完整字段表，数值是默认值，不是推荐质量阈值：

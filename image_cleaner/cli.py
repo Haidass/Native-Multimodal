@@ -12,7 +12,7 @@ from .jobs import analyze, export_images, merge
 
 
 def add_aspect_arguments(p):
-    p.add_argument("--aspect-buckets", help="Width:height buckets, e.g. 1:1,2:3,3:2; all selects eight presets; none disables")
+    p.add_argument("--aspect-buckets", help="Width:height buckets, e.g. 1:1,1:3,3:1; all selects ten presets; none disables")
     p.add_argument("--aspect-mode", choices=["strict", "loose"], help="Exact ratio or approximate ratio (default: strict)")
     p.add_argument("--aspect-tolerance", type=float, help="Symmetric relative deviation, inclusive; default 0.05 (5%%), loose mode only")
 

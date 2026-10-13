@@ -5,7 +5,7 @@ import math
 from pathlib import Path
 import re
 
-ASPECT_BUCKETS = ("1:1", "2:3", "3:2", "3:4", "4:3", "9:16", "16:9", "21:9")
+ASPECT_BUCKETS = ("1:1", "2:3", "3:2", "3:4", "4:3", "9:16", "16:9", "21:9", "1:3", "3:1")
 
 
 def normalize_aspect_buckets(value):

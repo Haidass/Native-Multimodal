@@ -13,9 +13,9 @@ short_description: 图片文本初筛：代码、参数、部署、分布统计�
 
 GitHub 源码仓库：`Haidass/Native-Multimodal`。在线中文教程与命令生成器：[Hugging Face Space](https://huggingface.co/spaces/HanWangTJU/NMM-data-preprocess)。本仓库同步当前图片—文本初筛工具，不包含模型训练代码、个人数据或认证凭据。
 
-版本 **0.3.1**。面向原生图片—文本模型训练前的数据初筛。Space 提供中文教程、参数查询、命令生成和源码下载；数据处理在本地或服务器通过 CLI 执行。静态 Space 不接收图片、不运行后台清洗作业。
+版本 **0.3.2**。面向原生图片—文本模型训练前的数据初筛。Space 提供中文教程、参数查询、命令生成和源码下载；数据处理在本地或服务器通过 CLI 执行。静态 Space 不接收图片、不运行后台清洗作业。
 
-0.3.1 修复 JSON 配置回读后透明图片导出失败的问题；清洗回归测试增至 22 项。
+0.3.2 新增 `1:3` 和 `3:1`，共十个预设桶；支持单独选择、多选和 `all`，严格匹配及默认 5% 宽松匹配均适用。清洗回归测试增至 24 项。
 
 | 入口 | 内容 |
 | --- | --- |
@@ -33,13 +33,13 @@ Python 3.10+，Windows / Linux。支持文件夹递归导入和 JSONL 图文清�
 
 ## 统计后按宽高比桶筛选
 
-支持八个宽:高预设桶 `1:1,2:3,3:2,3:4,4:3,9:16,16:9,21:9`，可多选或使用 `all`。默认不启用桶筛选；启用后默认严格匹配。宽松模式偏差默认 5%，用 `--aspect-tolerance 0.03` 等参数调整。完整规则和评测指标见 [宽高比筛选说明](docs/USAGE.md#36-宽高比桶筛选)。
+支持十个宽:高预设桶 `1:1,2:3,3:2,3:4,4:3,9:16,16:9,21:9,1:3,3:1`，可多选或使用 `all`。默认不启用桶筛选；启用后默认严格匹配。宽松模式偏差默认 5%，用 `--aspect-tolerance 0.03` 等参数调整。完整规则和评测指标见 [宽高比筛选说明](docs/USAGE.md#36-宽高比桶筛选)。
 
 ```powershell
 # 严格筛选三个桶，同时要求短边至少 256 像素。
 .\.venv\Scripts\python.exe -m image_cleaner filter --shards runs/statistics/shards --output runs/aspect_strict --resolution 256p --aspect-buckets "1:1,2:3,3:2" --aspect-mode strict
 
-# 全部八个桶，允许包含边界的 5% 对称偏差；无须重新解码图片。
+# 全部十个桶，允许包含边界的 5% 对称偏差；无须重新解码图片。
 .\.venv\Scripts\python.exe -m image_cleaner filter --shards runs/statistics/shards --output runs/aspect_loose --aspect-buckets all --aspect-mode loose --aspect-tolerance 0.05
 ```
 

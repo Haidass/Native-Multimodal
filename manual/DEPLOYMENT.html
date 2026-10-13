@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>&#37096;&#32626;&#25351;&#21335; &#183; NMM-data-preprocess</title><link rel="stylesheet" href="../assets/style.css"><script defer src="../assets/app.js"></script></head><body><header class="topbar"><a class="brand" href="../index.html">NMM<span> / </span>data-preprocess</a><nav><a href="https://huggingface.co/spaces/HanWangTJU/NMM-data-preprocess/tree/main">&#28304;&#20195;&#30721; &#8599;</a><a href="../downloads/NMM-data-preprocess-0.3.1.zip" download>&#19979;&#36733;&#28304;&#30721; &#8595;</a></nav></header><div class="manual-layout"><aside class="sidebar"><a href="../index.html">&#8592; &#36820;&#22238;&#39318;&#39029;</a><a class="" href="QUICKSTART.html">&#36880;&#27493;&#25945;&#31243;</a><a class="" href="USAGE.html">&#23436;&#25972;&#25163;&#20876;</a><a class="" href="PARAMETERS.html">&#21442;&#25968;&#21442;&#32771;</a><a class="active" href="DEPLOYMENT.html">&#37096;&#32626;&#25351;&#21335;</a><a class="" href="ARCHITECTURE.html">&#20195;&#30721;&#35828;&#26126;</a><h2>&#26412;&#39029;&#30446;&#24405;</h2><div class="toc">
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>&#37096;&#32626;&#25351;&#21335; &#183; NMM-data-preprocess</title><link rel="stylesheet" href="../assets/style.css"><script defer src="../assets/app.js"></script></head><body><header class="topbar"><a class="brand" href="../index.html">NMM<span> / </span>data-preprocess</a><nav><a href="https://huggingface.co/spaces/HanWangTJU/NMM-data-preprocess/tree/main">&#28304;&#20195;&#30721; &#8599;</a><a href="../downloads/NMM-data-preprocess-0.3.2.zip" download>&#19979;&#36733;&#28304;&#30721; &#8595;</a></nav></header><div class="manual-layout"><aside class="sidebar"><a href="../index.html">&#8592; &#36820;&#22238;&#39318;&#39029;</a><a class="" href="QUICKSTART.html">&#36880;&#27493;&#25945;&#31243;</a><a class="" href="USAGE.html">&#23436;&#25972;&#25163;&#20876;</a><a class="" href="PARAMETERS.html">&#21442;&#25968;&#21442;&#32771;</a><a class="active" href="DEPLOYMENT.html">&#37096;&#32626;&#25351;&#21335;</a><a class="" href="ARCHITECTURE.html">&#20195;&#30721;&#35828;&#26126;</a><h2>&#26412;&#39029;&#30446;&#24405;</h2><div class="toc">
 <ul>
 <li><a href="#1-&#37096;&#32626;&#24418;&#24335;&#22914;&#20309;&#36873;&#25321;">1. &#37096;&#32626;&#24418;&#24335;&#22914;&#20309;&#36873;&#25321;</a></li>
 <li><a href="#2-windows-&#37096;&#32626;">2. Windows &#37096;&#32626;</a></li>
@@ -76,8 +76,8 @@ python3 -m venv .venv
 <p>&#31163;&#32447;&#36816;&#34892;&#21069;&#24212;&#22312;&#23545;&#24212;&#24179;&#21488;&#20934;&#22791; Python&#12289;&#21253;&#23433;&#35013;&#25991;&#20214;&#21644;&#20195;&#30721;&#12290;&#21487;&#20197;&#25191;&#34892; <code>pip download . --dest wheels</code> &#25910;&#38598;&#26680;&#24515;&#20381;&#36182;&#65307;&#25171;&#21253;&#26041;&#24335;&#21644;&#24179;&#21488;&#19981;&#21516;&#65292;&#24212;&#22312;&#30446;&#26631;&#29615;&#22659;&#39564;&#35777;&#12290;&#21407;&#22270;&#12289;&#20219;&#21153;&#25991;&#20214;&#24314;&#35758;&#25918;&#22312;&#21487;&#38752;&#26412;&#22320;&#30424;&#25110;&#21463;&#25511;&#20849;&#20139;&#23384;&#20648;&#65292;&#20248;&#20808;&#20351;&#29992;&#24555;&#30424;&#25215;&#36733; SQLite&#12290;</p>
 <h2 id="4-docker-cli-&#37096;&#32626;">4. Docker CLI &#37096;&#32626;</h2>
 <p>&#20174;&#39033;&#30446;&#26681;&#30446;&#24405;&#26500;&#24314;&#65306;</p>
-<pre><code class="language-bash">docker build -f docker/Dockerfile -t nmm-data-preprocess:0.3.1 .
-docker run --rm nmm-data-preprocess:0.3.1 --help
+<pre><code class="language-bash">docker build -f docker/Dockerfile -t nmm-data-preprocess:0.3.2 .
+docker run --rm nmm-data-preprocess:0.3.2 --help
 </code></pre>
 <p>&#20197;&#19979;&#20026; Linux &#20027;&#26426;&#36335;&#24452;&#31034;&#20363;&#12290;&#20808;&#21019;&#24314;&#36755;&#20986;&#30446;&#24405;&#65292;&#24182;&#30830;&#20445;&#23481;&#22120; UID 1000 &#23545;&#20854;&#26377;&#20889;&#26435;&#38480;&#65307;&#25968;&#25454;&#30446;&#24405;&#21482;&#35835;&#25346;&#36733;&#65306;</p>
 <pre><code class="language-bash">mkdir -p /jobs/nmm
@@ -85,19 +85,19 @@ docker run --rm \
   -v /data/images:/data/images:ro \
   -v /jobs/nmm:/jobs \
   -v &quot;$PWD/configs:/configs:ro&quot; \
-  nmm-data-preprocess:0.3.1 \
+  nmm-data-preprocess:0.3.2 \
   run --input /data/images --output /jobs/statistics --config /configs/statistics_only.json --workers 4 --sidecar-text
 
 docker run --rm \
   -v /jobs/nmm:/jobs \
   -v &quot;$PWD/configs:/configs:ro&quot; \
-  nmm-data-preprocess:0.3.1 \
+  nmm-data-preprocess:0.3.2 \
   filter --shards /jobs/statistics/shards --output /jobs/filtered --config /configs/audit.json --resolution 256p --aspect-buckets all --aspect-mode loose
 
 docker run --rm \
   -v /data/images:/data/images:ro \
   -v /jobs/nmm:/jobs \
-  nmm-data-preprocess:0.3.1 \
+  nmm-data-preprocess:0.3.2 \
   export --curated /jobs/filtered --output /jobs/normalized --workers 4
 </code></pre>
 <p>&#31532;&#20108;&#26465;&#20165;&#20351;&#29992;&#32531;&#23384;&#20998;&#29255;&#65292;&#26080;&#39035;&#25346;&#36733;&#28304;&#22270;&#65307;&#31532;&#19977;&#26465; export &#24517;&#39035;&#33021;&#35775;&#38382;&#21407;&#22270;&#65292;&#36335;&#24452;&#20445;&#25345;&#19982;&#20998;&#26512;&#26102;&#30456;&#21516;&#65292;&#25110;&#36890;&#36807; <code>--root</code> &#25913;&#20889;&#12290;&#23481;&#22120;&#19981;&#26159; HF Docker Space &#24212;&#29992;&#65292;&#27809;&#26377;&#30417;&#21548; Web &#31471;&#21475;&#12290;</p>
@@ -203,4 +203,4 @@ docker run --rm \
 <li>&#21452; rank &#19982;&#21333;&#26426;&#32467;&#26524;&#19968;&#33268;&#65292;&#28304;&#22270;&#21024;&#38500;&#21518;&#30340;&#32531;&#23384; filter &#27491;&#24120;&#12290;</li>
 <li>&#22312;&#32447;&#25991;&#26723;&#21644;&#28304;&#30721; ZIP &#21487;&#25171;&#24320;&#65292;&#36828;&#31471;&#25991;&#20214;&#27809;&#26377;&#20973;&#25454;&#25110;&#20010;&#20154;&#25968;&#25454;&#12290;</li>
 <li>&#23454;&#38469;&#25968;&#25454;&#19978;&#20877;&#20570;&#20154;&#24037;&#25277;&#26597;&#19982;&#24615;&#33021;&#35797;&#36816;&#34892;&#65292;&#30830;&#35748;&#38408;&#20540;&#21644;&#36164;&#28304;&#35774;&#32622;&#21512;&#36866;&#12290;</li>
-</ol></main></div><footer>NMM-data-preprocess &#183; v0.3.1<span>&#22270;&#29255;&#25991;&#26412;&#25968;&#25454;&#21021;&#31579;&#25945;&#31243;</span></footer></body></html>
+</ol></main></div><footer>NMM-data-preprocess &#183; v0.3.2<span>&#22270;&#29255;&#25991;&#26412;&#25968;&#25454;&#21021;&#31579;&#25945;&#31243;</span></footer></body></html>
